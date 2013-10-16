@@ -7,7 +7,7 @@
 	
 	public class Main extends MovieClip
 	{
-		private var wordsArray:Array = new Array("APPLE", "BALL","CHILD","DONKEY","ELEPHANT");
+		private var wordsArray:Array = new Array("AWESOME", "GOLDEN","BULL","GANGSTER","BLACK","JANUARY","QUEEN","FUNNY","TENDER","POISON","MUSIC","FREEDOM","SEVEN","NATIONAL","DIAMOND","NYLON","SHUTTER","REEL","SADDLE","CHALK","STORY","THRONE","EMPIRE");
 		private var keyboardTopLineArray:Array = new Array("Q","W","E","R","T","Y","U","I","O","P");
 		private var keyboardMiddleLineArray:Array = new Array("A","S","D","F","G","H","J","K","L");
 		private var keyboardBottomLineArray:Array = new Array("Z","X","C","V","B","N","M");
@@ -20,7 +20,8 @@
 		private var numOfAlphabets:uint;
 		private var totalTimeLeft:uint = 30;
 		private var secondTicker:Timer;
-		private var clipsOnStageArray:Array;
+		private var keyboardTilesOnStageArray:Array;
+		
 		public function Main() 
 		{
 			guessIndex = 0;
@@ -40,7 +41,7 @@
 			wrong = 0;
 			score = 0;
 			totalTimeLeft = 30;
-			clipsOnStageArray = new Array();
+			keyboardTilesOnStageArray = new Array();
 			gotoAndStop(10);
 			layoutTheKeyboard();
 			getEnglishWord();
@@ -52,11 +53,26 @@
 		}
 		private function timeComplete(evt:TimerEvent)
 		{
-			for(var i:uint = 0; i < clipsOnStageArray.length; i++)
+			var clip:MovieClip;
+			for(var i:uint = 0; i < keyboardTilesOnStageArray.length; i++)
 			{
-				var clip:MovieClip = clipsOnStageArray[i] as MovieClip;
-				this.removeChild(clip);
+				clip = keyboardTilesOnStageArray[i] as MovieClip;
+				if(clip)
+				{
+					this.removeChild(clip);
+				}
+				
 			}
+			for(var i:uint = 0; i < guessTilesArray.length; i++)
+			{
+				clip = guessTilesArray[i] as MovieClip;
+				if(clip)
+				{
+					this.removeChild(clip);
+				}
+				
+			}
+			
 			
 			gotoAndStop(20);
 			play_again_mc.addEventListener(MouseEvent.CLICK,playClickListener);
@@ -76,7 +92,7 @@
 			{
 				key = new Key();				
 				this.addChild(key);
-				clipsOnStageArray.push(key);
+				keyboardTilesOnStageArray.push(key);
 				key.x = 100+ (i * key.width) + 10*i;
 				key.y = 400;				
 				key["value"].text = ""+keyboardTopLineArray[i];
@@ -88,7 +104,7 @@
 			{
 				key = new Key();				
 				this.addChild(key);
-				clipsOnStageArray.push(key);
+				keyboardTilesOnStageArray.push(key);
 				key.x = 115+ (i * key.width) + 10*i;
 				key.y = 400 + key.height + 10;				
 				key["value"].text = ""+keyboardMiddleLineArray[i];
@@ -100,7 +116,7 @@
 			{
 				key = new Key();				
 				this.addChild(key);
-				clipsOnStageArray.push(key);
+				keyboardTilesOnStageArray.push(key);
 				key.x = 140+ (i * key.width) + 10*i;
 				key.y = 400 + (2*key.height) + 20;				
 				key["value"].text = ""+keyboardBottomLineArray[i];
@@ -117,9 +133,10 @@
 			if(currentGuessWord.charAt(guessIndex) == charValue)
 			{
 				
-				var toBePoppedTile:Tile = guessTilesArray[guessIndex];
+				var toBePoppedTile:MovieClip = guessTilesArray[guessIndex];
 				//guessTilesArray.splice(guessIndex,1);
-				toBePoppedTile.visible = false;
+				//toBePoppedTile.visible = false;
+				toBePoppedTile["textMask"].height = 80.0;
 				trace('numOfAlphabets='+numOfAlphabets);
 				trace('guessIndex='+guessIndex);
 				
@@ -133,6 +150,11 @@
 				if (guessIndex==numOfAlphabets)
 				{
 					guessIndex=0;
+					for(var i:uint = 0; i < guessTilesArray.length; i++)
+					{
+						var guesstile:MovieClip = guessTilesArray[i] as MovieClip;
+						this.removeChild(guesstile);
+					}
 					getEnglishWord();
 				}
 			}
@@ -158,7 +180,7 @@
 			
 			var tileNote_0:TileNote_0 = new TileNote_0();
 			this.addChild(tileNote_0);
-			clipsOnStageArray.push(tileNote_0);
+			
 			startOffsetX =  tileNote_0.width;
 			tileNote_0.x = startOffsetX-40;
 			tileNote_0.y = 100;
@@ -170,7 +192,7 @@
 			{
 				var tileNote_1:TileNote_1 = new TileNote_1();
 				this.addChild(tileNote_1);
-				clipsOnStageArray.push(tileNote_1);
+				
 				startOffsetX += tileNote_1.width +3;
 				tileNote_1.x = startOffsetX;
 				tileNote_1.y = 100;
@@ -181,7 +203,7 @@
 			}
 			var tileNote_2:TileNote_2 = new TileNote_2();
 			this.addChild(tileNote_2);
-			clipsOnStageArray.push(tileNote_2);
+			
 			startOffsetX += tileNote_2.width - 37;
 			tileNote_2.x = startOffsetX ;
 			tileNote_2.y = 100;
