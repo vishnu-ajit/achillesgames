@@ -4,7 +4,7 @@
 	import flash.ui.Keyboard;
 	import flash.events.*;
 	import flash.utils.Timer;
-	
+	import mochi.as3.*;
 	public class Main extends MovieClip
 	{
 		private var wordsArray:Array = new Array("AWESOME", "GOLDEN","BULL","GANGSTER","BLACK","JANUARY","QUEEN","FUNNY","TENDER","POISON","MUSIC","FREEDOM","SEVEN","NATIONAL","DIAMOND","NYLON","SHUTTER","REEL","SADDLE","CHALK","STORY","THRONE","EMPIRE");
@@ -30,8 +30,10 @@
 			score = 0;
 			
 			
+			MochiAd.showPreGameAd({clip:mcMochiAd, id:"adf3fc436c4cc12a", res:"800x600"});
 			
-			click_to_play_mc.addEventListener(MouseEvent.CLICK,playClickListener);
+			
+			//click_to_play_mc.addEventListener(MouseEvent.CLICK,playClickListener);
 			
 		}
 		private function playClickListener(evt:MouseEvent)
